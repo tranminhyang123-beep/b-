@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>💖 Ultra Love</title>
+<title>💖 Love Memory</title>
 
 <style>
 *{
@@ -42,16 +42,17 @@ body{
     justify-content:center;
     align-items:center;
     z-index:999;
+    transition:1s;
 }
 
 #intro h1{
     font-size:40px;
-    animation: zoom 2s infinite;
+    animation: glow 2s infinite;
 }
 
-@keyframes zoom{
-    0%,100%{transform:scale(1);}
-    50%{transform:scale(1.2);}
+@keyframes glow{
+    0%,100%{text-shadow:0 0 10px #ff4d6d;}
+    50%{text-shadow:0 0 30px #ff4d6d;}
 }
 
 /* 💌 CARD */
@@ -62,7 +63,7 @@ body{
     padding:30px;
     border-radius:25px;
     text-align:center;
-    box-shadow:0 10px 40px rgba(0,0,0,0.2);
+    box-shadow:0 20px 60px rgba(0,0,0,0.3);
     display:none;
 }
 
@@ -83,15 +84,21 @@ body{
     margin-top:10px;
 }
 
-/* ✍️ STORY TEXT */
+.days{
+    margin-top:15px;
+    font-size:18px;
+    color:#ff4d6d;
+    font-weight:bold;
+}
+
+/* 💬 STORY TEXT */
 .line{
     margin-top:20px;
     font-size:20px;
     color:#444;
-    min-height:40px;
+    min-height:60px;
     border-right:2px solid #ff4d6d;
-    white-space:nowrap;
-    overflow:hidden;
+    white-space:pre-line;
 }
 
 /* 💌 BUTTON */
@@ -106,39 +113,36 @@ body{
     display:none;
 }
 
-/* 💖 HEARTS */
+/* 💖 HEART */
 .heart-float{
     position:absolute;
     bottom:-50px;
-    font-size:20px;
-    animation: floatUp linear forwards;
+    font-size:18px;
+    animation: rise linear forwards;
 }
 
-@keyframes floatUp{
+@keyframes rise{
     from{transform:translateY(0);opacity:1;}
     to{transform:translateY(-120vh);opacity:0;}
 }
 
-/* 📖 POPUP LETTER */
+/* 📖 POPUP */
 .popup{
     position:fixed;
-    top:0;
-    left:0;
     width:100%;
     height:100%;
-    background:rgba(0,0,0,0.6);
+    background:rgba(0,0,0,0.7);
     display:none;
     justify-content:center;
     align-items:center;
 }
 
-.popup-content{
+.popup-card{
     background:white;
     padding:25px;
     border-radius:20px;
-    max-width:400px;
-    text-align:center;
-    animation: pop 0.5s ease;
+    max-width:420px;
+    animation: pop 0.4s ease;
 }
 
 @keyframes pop{
@@ -146,13 +150,13 @@ body{
     to{transform:scale(1);}
 }
 
-/* 🎵 BUTTON */
+/* 🎵 */
 .musicBtn{
     margin-top:10px;
     padding:10px 15px;
     border:none;
     border-radius:20px;
-    background:#444;
+    background:#333;
     color:white;
     cursor:pointer;
 }
@@ -163,8 +167,8 @@ body{
 
 <!-- 🎬 INTRO -->
 <div id="intro">
-    <h1>💖 Loading Love...</h1>
-    <p>Just a moment...</p>
+    <h1>💖 Loading Love Memory</h1>
+    <p>23/02/2024 ❤️ Forever</p>
 </div>
 
 <!-- 🎵 MUSIC -->
@@ -179,6 +183,8 @@ body{
 
     <div class="title">Yang ❤️ Ly</div>
 
+    <div class="days" id="days"></div>
+
     <div class="line" id="line"></div>
 
     <button class="musicBtn" onclick="playMusic()">🎵 Bật nhạc</button>
@@ -189,12 +195,12 @@ body{
 
 <!-- 📖 POPUP -->
 <div class="popup" id="popup">
-    <div class="popup-content">
-        <h2>💌 Gửi em</h2>
+    <div class="popup-card">
+        <h2>💖 Thư gửi em</h2>
         <p>
-            Anh không hoàn hảo...<br><br>
-            Nhưng anh thật lòng thương em 🥺<br><br>
-            Nếu được chọn lại, anh vẫn chọn em ❤️
+            Từ 23/02/2024 đến hôm nay...<br><br>
+            Anh vẫn luôn chọn em ❤️<br><br>
+            Không cần hoàn hảo, chỉ cần là em 🥺
         </p>
         <br>
         <button onclick="closePopup()">Đóng</button>
@@ -203,73 +209,79 @@ body{
 
 <script>
 
-const music = document.getElementById("bgMusic");
-
-/* 🎬 intro */
-setTimeout(()=>{
-    document.getElementById("intro").style.display="none";
-    document.querySelector(".card").style.display="block";
-},2500);
+const music=document.getElementById("bgMusic");
 
 /* 🎵 music */
 function playMusic(){
     music.play();
 }
 
-/* ✍️ story text */
+/* 🎬 intro */
+setTimeout(()=>{
+    document.getElementById("intro").style.opacity="0";
+    setTimeout(()=>{
+        document.getElementById("intro").remove();
+        document.querySelector(".card").style.display="block";
+    },800);
+},2500);
+
+/* 📅 DAYS COUNT */
+const loveDate = new Date("2024-02-23");
+
+function updateDays(){
+    const now = new Date();
+    const diff = now - loveDate;
+    const days = Math.floor(diff/(1000*60*60*24));
+
+    document.getElementById("days").innerHTML =
+    "💞 " + days + " ngày yêu nhau kể từ 23/02/2024";
+}
+updateDays();
+
+/* 💬 STORY */
 const texts = [
-    "Anh gặp em là định mệnh...",
-    "Anh nhớ em mỗi ngày 🥺",
-    "Không gì quan trọng hơn em ❤️",
-    "Anh chỉ cần em thôi..."
+"Anh nhớ em mỗi ngày 🥺",
+"Từ 23/02/2024 đến bây giờ...",
+"Em là điều đẹp nhất ❤️",
+"Anh chỉ cần em thôi..."
 ];
 
-let line = document.getElementById("line");
-let i=0, j=0;
+let i=0;
+let el=document.getElementById("line");
 
-function type(){
+function story(){
     if(i < texts.length){
-        if(j < texts[i].length){
-            line.innerHTML += texts[i][j];
-            j++;
-            setTimeout(type,60);
-        }else{
-            setTimeout(()=>{
-                line.innerHTML="";
-                j=0;
-                i++;
-                type();
-            },1200);
-        }
+        el.innerHTML = texts[i];
+        i++;
+        setTimeout(story,2000);
     }else{
         document.getElementById("btn").style.display="inline-block";
     }
 }
 
-setTimeout(type,2500);
+setTimeout(story,3000);
 
 /* 💌 popup */
 function openPopup(){
     document.getElementById("popup").style.display="flex";
 }
-
 function closePopup(){
     document.getElementById("popup").style.display="none";
 }
 
 /* 💖 hearts */
-function createHeart(){
+function heart(){
     const h=document.createElement("div");
     h.className="heart-float";
     h.innerHTML="💖";
     h.style.left=Math.random()*100+"vw";
-    h.style.fontSize=(15+Math.random()*25)+"px";
+    h.style.fontSize=(12+Math.random()*20)+"px";
     h.style.animationDuration=(4+Math.random()*4)+"s";
     document.body.appendChild(h);
     setTimeout(()=>h.remove(),8000);
 }
 
-setInterval(createHeart,200);
+setInterval(heart,200);
 
 </script>
 
